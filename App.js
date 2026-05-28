@@ -1,39 +1,45 @@
+
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import Ola from "./src/components/ola"
-import { TextInput } from 'react-native';
+import { StyleSheet, Text, View ,Button,Image,TextInput} from 'react-native';
 import { use, useState } from 'react';
-import { Button } from 'react-native';
+import ResultCard from './src/components/ResultCard';
+import MyButton from './src/components/MyButton';
 
 export default function App() {
   const [gas,setGas] = useState('');
   const [etanol,setEtanol] = useState('');
   const [precbom,setPrecbom] = useState('');
+  const [porc,setPorc] = useState('');
+  const img = require("./assets/gasolina.webp");
 
   function obtprecbom(){
-    gas * 0.7 > etanol ? 
-    //setNomecomp(`${nome} ${sobren}`)
+    gas * 0.7 > etanol ?  setPrecbom ("Etanol"):  setPrecbom("Gasolina");
+    setPorc(etanol*100/gas);
   }
+
   return (
     <View style={styles.container}>
-      <Text style={styles.texto}>Open up App.js to start working on your app!</Text>
+      <Text style={styles.texto}>Etanol ou Gasolina</Text>
+    <Image
+    source = {img}
+    />
+      <Text>Etanol</Text>
       <TextInput
         style={styles.input}
-        placeholder='Coloque seu nome'
-        onChangeText={setNome}
-        value={nome}
+        placeholder='Coloque preço do etanol'
+        onChangeText={setEtanol}
+        value={etanol}
       />
+        <Text>Gasolina</Text>
         <TextInput
         style={styles.input}
-        placeholder='Coloque seu sobrenome'
-        onChangeText={setSobren}
-        value={sobren}
+        placeholder='Coloque preço da gasolina'
+        onChangeText={setGas}
+        value={gas}
       />
-      <Button
-      title='Nome completo'
-      onPress={obtnomecom}
-      />
-      <Text>{nomecomp}</Text>
+
+      <MyButton obtprecbom={obtprecbom}/>
+      <ResultCard precbom={precbom} porc={porc}/>
     </View>
   );
 }
@@ -41,15 +47,16 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: 'white',
     alignItems: 'center',
-    justifyContent: 'center',
+
   },
 
   texto:{
+    marginTop: 30,
     color:'red',
     fontSize: 24,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
 
   input:{
@@ -60,6 +67,7 @@ const styles = StyleSheet.create({
     width:'90%',
     margin:10,
     padding:5,
+    margin: 20,
   }
 
 });
